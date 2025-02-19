@@ -8,11 +8,14 @@
 #include <bloblist.h>
 #include "xferlist.h"
 
-int xferlist_from_boot_arg(ulong addr, ulong size)
+int xferlist_from_boot_arg(ulong *addr)
 {
 	int ret;
 
-	ret = bloblist_check(saved_args[3], size);
+	if (!saved_args[3])
+		return -ENOENT;
+
+	ret = bloblist_check(saved_args[3], 0);
 	if (ret)
 		return ret;
 
@@ -21,5 +24,7 @@ int xferlist_from_boot_arg(ulong addr, ulong size)
 	if (ret)
 		return ret;
 
-	return bloblist_reloc((void *)addr, size);
+	*addr = bloblist_get_base();
+
+	return 0;
 }
