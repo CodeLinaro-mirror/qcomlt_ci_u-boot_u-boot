@@ -24,6 +24,9 @@ from u_boot_pylib import terminal
 from u_boot_pylib import test_util
 from u_boot_pylib import tools
 
+# With modern filelock the lock busting tests now fail
+test_util.use_concurrent = False
+
 use_network = True
 
 settings_data = '''
