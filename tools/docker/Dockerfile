@@ -44,7 +44,7 @@ RUN if [ "$TARGETPLATFORM" = "linux/amd64" ]; then HOSTARCH=x86_64; else HOSTARC
 	\
 	) | while read url; do \
 		# Read the URL and unpack it into /opt
-		wget -O - $url | tar -C /opt -xJ; \
+		wget --retry-connrefused -O - $url | tar -C /opt -xJ || exit 1; \
 	done
 
 # Manually install other toolchains
